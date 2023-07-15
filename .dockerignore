@@ -1,0 +1,15 @@
+# git files
+.git*
+
+# docker related files
+.dockerignore
+Dockerfile
+
+# binary files
+bin
+
+# db files
+*.db
+
+# Docs files
+*.md
