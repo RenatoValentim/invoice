@@ -2,7 +2,10 @@ package main
 
 import (
 	"invoice/internal/config"
+	"invoice/internal/db"
+	"invoice/internal/gateway"
 	"invoice/internal/usecase"
+	"log"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -27,10 +30,17 @@ func main() {
 	})
 
 	e.GET(`/cards/:cardNumber/invoices`, func(c echo.Context) error {
-		calculateInvoice := usecase.NewCalculateInvoice()
+		transactionDAODatabase := db.NewTransactionDAODatabase()
+		currecyGatewayHttp := gateway.NewCurrencyGatewayHttp()
+		calculateInvoice := usecase.NewCalculateInvoice(
+			&transactionDAODatabase,
+			&currecyGatewayHttp,
+		)
 
 		total, err := calculateInvoice.Execute(c.Param(`cardNumber`))
 		if err != nil {
+			log.Printf("Failed when calculate invoice: %v\n", err)
+
 			return c.JSON(
 				http.StatusInternalServerError,
 				map[string]string{
