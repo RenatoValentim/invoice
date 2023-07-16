@@ -24,6 +24,6 @@ func TestMain(t *testing.T) {
 		var output Output
 		json.Unmarshal(body, &output)
 
-		assert.Equal(1500, output.Total)
+		assert.Equal(1050, output.Total)
 	})
 }

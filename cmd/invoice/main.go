@@ -2,10 +2,13 @@ package main
 
 import (
 	"database/sql"
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
@@ -19,6 +22,10 @@ type CardTransaction struct {
 	Amount      int
 	Currency    string
 	Date        string
+}
+
+type Currency struct {
+	USD int `json:"usd"`
 }
 
 func main() {
@@ -61,9 +68,53 @@ func main() {
 		}
 		defer db.Close()
 
-		rows, err := db.Query(
-			`SELECT * FROM cards_transaction WHERE card_number = $1`,
+		currentDate := time.Now()
+		month := currentDate.Month()
+		year := currentDate.Year()
+
+		response, err := http.Get(`http://172.17.0.1:3001/currencies`)
+		if err != nil {
+			log.Printf("Failed when get currency: %v\n", err)
+			return c.JSON(
+				http.StatusInternalServerError,
+				map[string]string{
+					`error`: `An error ocurred while trying to get invoice`,
+				},
+			)
+		}
+		defer response.Body.Close()
+
+		body, err := ioutil.ReadAll(response.Body)
+		if err != nil {
+			log.Printf("Failed when read response.body: %v\n", err)
+			return c.JSON(
+				http.StatusInternalServerError,
+				map[string]string{
+					`error`: `An error ocurred while trying to get invoice`,
+				},
+			)
+		}
+
+		var currency Currency
+		err = json.Unmarshal(body, &currency)
+		if err != nil {
+			log.Printf("Failed when unmarshal currency: %v\n", err)
+			return c.JSON(
+				http.StatusInternalServerError,
+				map[string]string{
+					`error`: `An error ocurred while trying to get invoice`,
+				},
+			)
+		}
+
+		rows, err := db.Query(`
+			SELECT * FROM cards_transaction
+			WHERE card_number = $1
+			AND EXTRACT(month from date) = $2
+			AND EXTRACT(year from date) = $3`,
 			c.Param(`cardNumber`),
+			int(month),
+			year,
 		)
 		if err != nil {
 			log.Printf("Failed to get data from database: %v\n", err)
@@ -99,7 +150,11 @@ func main() {
 
 		var total = 0
 		for _, transaction := range cardsTransaction {
-			total += transaction.Amount
+			if transaction.Currency == `BRL` {
+				total += transaction.Amount
+			} else {
+				total += transaction.Amount * currency.USD
+			}
 		}
 
 		return c.JSON(http.StatusOK, map[string]int{`total`: total})
