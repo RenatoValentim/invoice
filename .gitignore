@@ -119,5 +119,6 @@ fabric.properties
 # Personal
 tmp/
 .env
+app.env
 *.test
 *.cov

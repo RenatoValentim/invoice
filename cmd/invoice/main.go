@@ -1,22 +1,17 @@
 package main
 
 import (
+	"invoice/internal/config"
 	"invoice/internal/usecase"
-	"log"
 	"net/http"
 
-	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	_ "github.com/lib/pq"
 )
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
-
+	config.LoadConfig(`.`)
 	e := echo.New()
 
 	e.Use(

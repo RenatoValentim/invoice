@@ -7,8 +7,10 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
 	"time"
+
+	_ "github.com/lib/pq"
+	"github.com/spf13/viper"
 )
 
 type CardTransaction struct {
@@ -32,10 +34,11 @@ func NewCalculateInvoice() *calculateInvoice {
 
 func (c *calculateInvoice) Execute(cardNumber string) (float64, error) {
 	dsn := fmt.Sprintf(
-		`host=db user=%s password=%s dbname=%s port=5432 sslmode=disable TimeZone=America/Sao_Paulo`,
-		os.Getenv("DB_USER"),
-		os.Getenv("DB_PASSWORD"),
-		os.Getenv("DB_NAME"),
+		`host=%s user=%s password=%s dbname=%s port=5432 sslmode=disable TimeZone=America/Sao_Paulo`,
+		viper.GetString(`db_host`),
+		viper.GetString(`db_user`),
+		viper.GetString(`db_password`),
+		viper.GetString(`db_name`),
 	)
 
 	db, err := sql.Open(`postgres`, dsn)
