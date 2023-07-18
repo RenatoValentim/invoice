@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"invoice/internal/config"
 	"invoice/internal/db"
 	"invoice/internal/gateway"
@@ -11,6 +12,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	_ "github.com/lib/pq"
+	"github.com/spf13/viper"
 )
 
 func main() {
@@ -30,8 +32,14 @@ func main() {
 	})
 
 	e.GET(`/cards/:cardNumber/invoices`, func(c echo.Context) error {
+		currencyBaseUrl := fmt.Sprintf(
+			`%s:%d`,
+			viper.GetString(`currency_host`),
+			viper.GetInt(`currency_port`),
+		)
+
 		transactionDAODatabase := db.NewTransactionDAODatabase()
-		currecyGatewayHttp := gateway.NewCurrencyGatewayHttp()
+		currecyGatewayHttp := gateway.NewCurrencyGatewayHttp(currencyBaseUrl)
 		calculateInvoice := usecase.NewCalculateInvoice(
 			transactionDAODatabase,
 			currecyGatewayHttp,

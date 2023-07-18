@@ -2,19 +2,25 @@ package gateway
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
 )
 
-type currencyGatewayHttp struct{}
+type currencyGatewayHttp struct {
+	BaseUrl string
+}
 
-func NewCurrencyGatewayHttp() *currencyGatewayHttp {
-	return &currencyGatewayHttp{}
+func NewCurrencyGatewayHttp(baseUrl string) *currencyGatewayHttp {
+	return &currencyGatewayHttp{
+		BaseUrl: baseUrl,
+	}
 }
 
 func (c *currencyGatewayHttp) GetCurrencies() (Currency, error) {
-	response, err := http.Get(`http://172.17.0.1:3001/currencies`)
+	url := fmt.Sprintf(`%s/currencies`, c.BaseUrl)
+	response, err := http.Get(url)
 	if err != nil {
 		log.Printf("Failed when get currency: %v\n", err)
 		return Currency{}, err

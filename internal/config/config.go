@@ -12,6 +12,10 @@ func setDefaults() {
 	viper.SetDefault("server_host", "127.0.0.1")
 	viper.SetDefault("server_port", 1323)
 
+	// External Servcer Currency
+	viper.SetDefault("currency_host", "http://127.0.0.1")
+	viper.SetDefault("currency_port", 3001)
+
 	// DB Defaults
 	viper.SetDefault("db_host", "")
 	viper.SetDefault("db_port", "")
@@ -27,6 +31,10 @@ func bindEnvironmentVariables() {
 	// Server Variables
 	viper.BindEnv("server_host")
 	viper.BindEnv("server_port")
+
+	// External Server Currency
+	viper.BindEnv("currency_host")
+	viper.BindEnv("currency_port")
 
 	// Databse Variables
 	viper.BindEnv("db_host")
