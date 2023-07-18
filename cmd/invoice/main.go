@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"invoice/internal/config"
-	"invoice/internal/db"
-	"invoice/internal/gateway"
+	"invoice/internal/infra/db"
+	"invoice/internal/infra/gateway"
 	"invoice/internal/usecase"
 	"log"
 	"net/http"

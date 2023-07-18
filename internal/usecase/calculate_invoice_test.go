@@ -2,8 +2,8 @@ package usecase_test
 
 import (
 	"invoice/internal/config"
-	"invoice/internal/db"
-	"invoice/internal/gateway"
+	"invoice/internal/infra/db"
+	"invoice/internal/infra/gateway"
 	"invoice/internal/usecase"
 	"testing"
 

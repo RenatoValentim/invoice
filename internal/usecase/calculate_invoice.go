@@ -1,8 +1,8 @@
 package usecase
 
 import (
-	"invoice/internal/db"
-	"invoice/internal/gateway"
+	"invoice/internal/infra/db"
+	"invoice/internal/infra/gateway"
 	"log"
 	"time"
 
