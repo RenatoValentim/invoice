@@ -9,8 +9,8 @@ import (
 
 type currencyGatewayHttp struct{}
 
-func NewCurrencyGatewayHttp() currencyGatewayHttp {
-	return currencyGatewayHttp{}
+func NewCurrencyGatewayHttp() *currencyGatewayHttp {
+	return &currencyGatewayHttp{}
 }
 
 func (c *currencyGatewayHttp) GetCurrencies() (Currency, error) {

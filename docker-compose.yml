@@ -25,7 +25,7 @@ services:
       - POSTGRES_DB=${DB_NAME}
     image: postgres
     ports:
-      - 5432:5432
+      - ${DB_PORT}:5432
     restart: always
     volumes:
       - ./internal/db/init.sql:/docker-entrypoint-initdb.d/init.sql

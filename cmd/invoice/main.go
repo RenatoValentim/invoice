@@ -33,8 +33,8 @@ func main() {
 		transactionDAODatabase := db.NewTransactionDAODatabase()
 		currecyGatewayHttp := gateway.NewCurrencyGatewayHttp()
 		calculateInvoice := usecase.NewCalculateInvoice(
-			&transactionDAODatabase,
-			&currecyGatewayHttp,
+			transactionDAODatabase,
+			currecyGatewayHttp,
 		)
 
 		total, err := calculateInvoice.Execute(c.Param(`cardNumber`))

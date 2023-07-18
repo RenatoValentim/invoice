@@ -10,17 +10,18 @@ import (
 
 type transactionDAODatabase struct{}
 
-func NewTransactionDAODatabase() transactionDAODatabase {
-	return transactionDAODatabase{}
+func NewTransactionDAODatabase() *transactionDAODatabase {
+	return &transactionDAODatabase{}
 }
 
 func (t *transactionDAODatabase) GetTransactions(cardNumber string, month, year int) ([]CardTransaction, error) {
 	dsn := fmt.Sprintf(
-		`host=%s user=%s password=%s dbname=%s port=5432 sslmode=disable TimeZone=America/Sao_Paulo`,
+		`host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=America/Sao_Paulo`,
 		viper.GetString(`db_host`),
 		viper.GetString(`db_user`),
 		viper.GetString(`db_password`),
 		viper.GetString(`db_name`),
+		viper.GetString(`db_port`),
 	)
 
 	db, err := sql.Open(`postgres`, dsn)
