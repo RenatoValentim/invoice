@@ -28,7 +28,7 @@ services:
       - ${DB_PORT}:5432
     restart: always
     volumes:
-      - ./internal/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./internal/infra/db/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   adminer:
     image: adminer
