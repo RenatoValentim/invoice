@@ -9,7 +9,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
-type calculateInvoice struct {
+type CalculateInvoice struct {
 	transactionDAO  contracts.TransactionDAO
 	currencyGateway gateway.CurrencyGateway
 }
@@ -17,14 +17,14 @@ type calculateInvoice struct {
 func NewCalculateInvoice(
 	transactionDAO contracts.TransactionDAO,
 	currencyGateway gateway.CurrencyGateway,
-) *calculateInvoice {
-	return &calculateInvoice{
+) *CalculateInvoice {
+	return &CalculateInvoice{
 		transactionDAO:  transactionDAO,
 		currencyGateway: currencyGateway,
 	}
 }
 
-func (c *calculateInvoice) Execute(cardNumber string) (float64, error) {
+func (c *CalculateInvoice) Execute(cardNumber string) (float64, error) {
 	currentDate := time.Now()
 	month := int(currentDate.Month())
 	year := currentDate.Year()
