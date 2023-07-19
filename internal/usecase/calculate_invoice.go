@@ -5,8 +5,6 @@ import (
 	gateway_contracts "invoice/internal/infra/gateway/contracts"
 	"log"
 	"time"
-
-	_ "github.com/lib/pq"
 )
 
 type CalculateInvoice struct {
