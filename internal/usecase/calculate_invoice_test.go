@@ -2,7 +2,7 @@ package usecase_test
 
 import (
 	"invoice/internal/config"
-	"invoice/internal/infra/db"
+	"invoice/internal/infra/db/contracts"
 	"invoice/internal/infra/gateway"
 	"invoice/internal/usecase"
 	"testing"
@@ -12,8 +12,8 @@ import (
 
 type TransactionDAOFake struct{}
 
-func (t TransactionDAOFake) GetTransactions(cardNumber string, month, year int) ([]db.CardTransaction, error) {
-	return []db.CardTransaction{
+func (t TransactionDAOFake) GetTransactions(cardNumber string, month, year int) ([]contracts.CardTransaction, error) {
+	return []contracts.CardTransaction{
 		{
 			Amount:   100,
 			Currency: "BRL",

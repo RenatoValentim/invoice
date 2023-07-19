@@ -38,7 +38,18 @@ func main() {
 			viper.GetInt(`currency_port`),
 		)
 
-		transactionDAODatabase := db.NewTransactionDAODatabase()
+		postgres, err := db.NewPostgresAdapter()
+		if err != nil {
+			log.Printf("Failed to connect the database: %v\n", err)
+
+			return c.JSON(
+				http.StatusInternalServerError,
+				map[string]string{
+					`error`: `An error ocurred while trying to get invoice`,
+				},
+			)
+		}
+		transactionDAODatabase := db.NewTransactionDAODatabase(postgres)
 		currecyGatewayHttp := gateway.NewCurrencyGatewayHttp(currencyBaseUrl)
 		calculateInvoice := usecase.NewCalculateInvoice(
 			transactionDAODatabase,

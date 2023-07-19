@@ -1,4 +1,4 @@
-package db
+package contracts
 
 type CardTransaction struct {
 	CardNumber  string
