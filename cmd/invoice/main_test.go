@@ -14,7 +14,7 @@ type Output struct {
 }
 
 func TestMain(t *testing.T) {
-	// t.Skip(`Need currency API running to work.`)
+	t.Skip(`Need currency API running to work.`)
 
 	assert := assert.New(t)
 

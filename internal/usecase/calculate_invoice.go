@@ -1,8 +1,8 @@
 package usecase
 
 import (
-	"invoice/internal/infra/db/contracts"
-	"invoice/internal/infra/gateway"
+	db_contracts "invoice/internal/infra/db/contracts"
+	gateway_contracts "invoice/internal/infra/gateway/contracts"
 	"log"
 	"time"
 
@@ -10,13 +10,13 @@ import (
 )
 
 type CalculateInvoice struct {
-	transactionDAO  contracts.TransactionDAO
-	currencyGateway gateway.CurrencyGateway
+	transactionDAO  db_contracts.TransactionDAO
+	currencyGateway gateway_contracts.CurrencyGateway
 }
 
 func NewCalculateInvoice(
-	transactionDAO contracts.TransactionDAO,
-	currencyGateway gateway.CurrencyGateway,
+	transactionDAO db_contracts.TransactionDAO,
+	currencyGateway gateway_contracts.CurrencyGateway,
 ) *CalculateInvoice {
 	return &CalculateInvoice{
 		transactionDAO:  transactionDAO,

@@ -2,8 +2,8 @@ package usecase_test
 
 import (
 	"invoice/internal/config"
-	"invoice/internal/infra/db/contracts"
-	"invoice/internal/infra/gateway"
+	db_contracts "invoice/internal/infra/db/contracts"
+	gateway_contracts "invoice/internal/infra/gateway/contracts"
 	"invoice/internal/usecase"
 	"testing"
 
@@ -12,8 +12,8 @@ import (
 
 type TransactionDAOFake struct{}
 
-func (t TransactionDAOFake) GetTransactions(cardNumber string, month, year int) ([]contracts.CardTransaction, error) {
-	return []contracts.CardTransaction{
+func (t TransactionDAOFake) GetTransactions(cardNumber string, month, year int) ([]db_contracts.CardTransaction, error) {
+	return []db_contracts.CardTransaction{
 		{
 			Amount:   100,
 			Currency: "BRL",
@@ -31,8 +31,8 @@ func (t TransactionDAOFake) GetTransactions(cardNumber string, month, year int) 
 
 type CurrencyGatewayFake struct{}
 
-func (c CurrencyGatewayFake) GetCurrencies() (gateway.Currency, error) {
-	return gateway.Currency{
+func (c CurrencyGatewayFake) GetCurrencies() (gateway_contracts.Currency, error) {
+	return gateway_contracts.Currency{
 		USD: 2.0,
 	}, nil
 }

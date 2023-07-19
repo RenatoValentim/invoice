@@ -25,7 +25,6 @@ func InvoiceController(calculateInvoice usecase.CalculateInvoice) {
 	})
 
 	e.GET(`/cards/:cardNumber/invoices`, func(c echo.Context) error {
-
 		total, err := calculateInvoice.Execute(c.Param(`cardNumber`))
 		if err != nil {
 			log.Printf("Failed when calculate invoice: %v\n", err)

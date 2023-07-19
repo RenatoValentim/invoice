@@ -1,4 +1,4 @@
-package gateway
+package contracts
 
 type Currency struct {
 	USD float64 `json:"usd"`
